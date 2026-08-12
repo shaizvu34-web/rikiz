@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RIKIZ — כפכפים בעבודת יד</title>
 <meta name="description" content="כפכפי הוויאנס משובצים ביד, אבן אחרי אבן. כל זוג מוזמן ונוצר בנפרד.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23E9EAE5'/%3E%3Ctext x='32' y='46' font-family='Didot,Georgia,serif' font-size='42' text-anchor='middle' fill='%2316181A'%3ER%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#E9EAE5">
+
+<!-- תצוגה מקדימה בוואטסאפ וברשתות -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RIKIZ">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="RIKIZ — כפכפים בעבודת יד">
+<meta property="og:description" content="כפכפי הוויאנס משובצים ביד, אבן אחר אבן. כל זוג מוזמן ונוצר בנפרד.">
+<meta property="og:url" content="https://shaizvu34-web.github.io/rikiz/">
+<meta property="og:image" content="https://shaizvu34-web.github.io/rikiz/images/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="שלושה זוגות כפכפים משובצים על רקע בהיר, לצד הכיתוב RIKIZ">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="stylesheet" href="fonts/frank-ruhl-libre.css">
 
 <style>
@@ -108,8 +124,8 @@
   /* ============ hero ============ */
 
   .hero {
-    --r: clamp(240px, 32vw, 425px);   /* רדיוס הקשת — זהה לכל הזרועות, כלומר מעגל */
-    --w: clamp(118px, 16vw, 212px);   /* רוחב זוג בקשת */
+    --r: clamp(250px, 34vw, 450px);   /* רדיוס הקשת — זהה לכל הזרועות, כלומר מעגל */
+    --w: clamp(74px, 10vw, 132px);    /* רוחב זוג — התמונות לאורך, אז צר יותר */
     --arc-y: calc(var(--r) + 40px);   /* מרכז הקשת, מלמעלה */
 
     --pad-top: clamp(100px, 12vh, 138px);
@@ -165,7 +181,7 @@
     /* הקצוות פרושים רחב לצדדים, אז הכותרת יכולה לעלות אל תוך החלל שנפתח */
     margin-block-start: calc(var(--arc-y) - 84px);
     display: inline-block;
-    max-width: 23ch;
+    max-width: min(86vw, 540px);
   }
 
   h1 {
@@ -200,13 +216,13 @@
 
   @media (max-width: 700px) {
     .hero {
-      --r: 34vw;
-      --w: 22vw;
+      --r: 36vw;
+      --w: 15vw;
       --arc-y: calc(var(--r) + 22px);
     }
     .sp1 { --a: -64deg; } .sp2 { --a: -38deg; } .sp3 { --a: -13deg; }
     .sp4 { --a:  13deg; } .sp5 { --a:  38deg; } .sp6 { --a:  64deg; }
-    .hero-copy { margin-block-start: calc(var(--arc-y) + 12px); max-width: 19ch; }
+    .hero-copy { margin-block-start: calc(var(--arc-y) + 12px); max-width: 92vw; }
     .hero p { font-size: 17px; }
   }
 
@@ -394,9 +410,9 @@
 
   .pack .drop {
     position: absolute;
-    left: 13%;
-    bottom: 15%;
-    width: 74%;
+    left: 25%;
+    bottom: 13%;
+    width: 50%;
     z-index: 2;
     display: block;
   }
@@ -543,12 +559,12 @@
 
   <div class="hero">
     <div class="stage" aria-hidden="true">
-      <div class="spoke sp1"><img src="images/arch/a1.png" alt=""></div>
-      <div class="spoke sp2"><img src="images/arch/a3.png" alt=""></div>
-      <div class="spoke sp3"><img src="images/arch/a5.png" alt=""></div>
-      <div class="spoke sp4"><img src="images/arch/a6.png" alt=""></div>
-      <div class="spoke sp5"><img src="images/arch/a4.png" alt=""></div>
-      <div class="spoke sp6"><img src="images/arch/a2.png" alt=""></div>
+      <div class="spoke sp1"><img src="images/real/d19.png" alt=""></div>
+      <div class="spoke sp2"><img src="images/real/d16.png" alt=""></div>
+      <div class="spoke sp3"><img src="images/real/d20.png" alt=""></div>
+      <div class="spoke sp4"><img src="images/real/d17.png" alt=""></div>
+      <div class="spoke sp5"><img src="images/real/d21.png" alt=""></div>
+      <div class="spoke sp6"><img src="images/real/d18.png" alt=""></div>
     </div>
 
     <div class="hero-copy rise">
@@ -1108,7 +1124,7 @@
                     fill="#E7EBE9" opacity="0.6"/>
             </svg>
             <span class="drop" style="--r0:-36deg; --r1:-12deg; --dx0:-70%">
-              <span class="dropIn"><img src="images/arch/a3.png" alt=""></span>
+              <span class="dropIn"><img src="images/real/d16.png" alt=""></span>
             </span>
             <svg class="bagpart front" viewBox="0 0 240 312" aria-hidden="true">
               <ellipse cx="120" cy="309" rx="94" ry="10" fill="#16181A"
@@ -1146,7 +1162,7 @@
                     fill="#E7EBE9" opacity="0.6"/>
             </svg>
             <span class="drop" style="--r0:28deg; --r1:6deg; --dx0:40%">
-              <span class="dropIn"><img src="images/arch/a6.png" alt=""></span>
+              <span class="dropIn"><img src="images/real/d17.png" alt=""></span>
             </span>
             <svg class="bagpart front" viewBox="0 0 240 312" aria-hidden="true">
               <ellipse cx="120" cy="309" rx="94" ry="10" fill="#16181A"
@@ -1184,7 +1200,7 @@
                     fill="#E7EBE9" opacity="0.6"/>
             </svg>
             <span class="drop" style="--r0:-24deg; --r1:15deg; --dx0:-30%">
-              <span class="dropIn"><img src="images/arch/a5.png" alt=""></span>
+              <span class="dropIn"><img src="images/real/d20.png" alt=""></span>
             </span>
             <svg class="bagpart front" viewBox="0 0 240 312" aria-hidden="true">
               <ellipse cx="120" cy="309" rx="94" ry="10" fill="#16181A"
