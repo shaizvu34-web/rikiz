@@ -217,31 +217,35 @@
   .arch-mobile { display: none; }
 
   @media (max-width: 700px) {
-    /* קשת רדיאלית משש זרועות נערמת על עצמה במסך צר — אין מספיק רוחב.
-       במובייל מוצגת במקומה תמונת קשת אחת, שנשארת קשת בכל רוחב מסך.
-       הדסקטופ ממשיך להשתמש בזרועות. */
+    /* הקשת הרדיאלית נערמת על עצמה במסך צר. במובייל במקומה צילום אחד
+       לרוחב מלא. רקע הסקשן נצבע בגוון הרקע של התמונה ודוהה אל גוון האבן,
+       כדי שלא יהיה תפר בין הצילום לעמוד. */
     .hero {
-      padding-top: 92px;
-      overflow: visible;
+      padding: 78px 0 clamp(48px, 8vh, 76px);
+      overflow: hidden;
+      background: linear-gradient(to bottom, #E2E2E1 0%, #E2E2E1 62%, var(--ground) 100%);
     }
     .stage { display: none; }
 
     .arch-mobile {
       display: block;
-      width: 96vw;
-      max-width: 470px;
+      width: 100%;
       height: auto;
-      margin: 0 auto 4px;
-      animation: archIn 900ms cubic-bezier(.2,.7,.2,1) 120ms backwards;
+      margin: 0 0 6px;
+      animation: heroIn 900ms cubic-bezier(.2,.7,.2,1) 100ms backwards;
     }
 
-    .hero-copy { margin-block-start: 0; max-width: 94vw; }
+    .hero-copy {
+      margin-block-start: 0;
+      max-width: 94vw;
+      padding-inline: 16px;
+    }
     .hero p { font-size: 16.5px; margin-top: 18px; }
     .hero .actions { margin-top: 26px; gap: 12px; }
   }
 
-  @keyframes archIn {
-    from { opacity: 0; transform: translateY(20px) scale(.97); }
+  @keyframes heroIn {
+    from { opacity: 0; transform: scale(1.03); }
   }
   @media (prefers-reduced-motion: reduce) {
     .arch-mobile { animation: none; }
@@ -588,7 +592,7 @@
       <div class="spoke sp6"><img src="images/real/d21.png" alt=""></div>
     </div>
 
-    <img class="arch-mobile" src="images/arch-mobile.png" alt="" aria-hidden="true">
+    <img class="arch-mobile" src="images/hero-mobile.jpg" alt="זוג כפכפים ורוד משובץ קריסטלים, מרחף באוויר">
 
     <div class="hero-copy rise">
       <span class="label">כפכפי הוויאנס · עבודת יד</span>
