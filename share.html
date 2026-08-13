@@ -294,15 +294,47 @@
   .ghost:hover { color: var(--ink); border-bottom-color: var(--ink); }
 
   @media (max-width: 700px) {
+    /* בקשת רדיאלית על מסך צר הזוגות נערמים זה על זה: מרווח הקשת קטן
+       מרוחב תיבת התיחום שלהם. לכן במובייל מחליפים לשורה שטוחה של שלושה,
+       עם הטיה קלה — קומפוזיציה אחרת, לא כיווץ של הדסקטופ. */
     .hero {
-      --r: 36vw;
-      --w: 15vw;
-      --arc-y: calc(var(--r) + 22px);
+      padding-top: 96px;
+      overflow: visible;
     }
-    .sp1 { --a: -64deg; } .sp2 { --a: -38deg; } .sp3 { --a: -13deg; }
-    .sp4 { --a:  13deg; } .sp5 { --a:  38deg; } .sp6 { --a:  64deg; }
-    .hero-copy { margin-block-start: calc(var(--arc-y) + 12px); max-width: 92vw; }
-    .hero p { font-size: 17px; }
+    .stage {
+      position: static;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 2vw;
+      width: auto;
+      height: auto;
+      margin: 0 0 26px;
+    }
+    .sp1, .sp5, .sp6 { display: none; }
+    .spoke {
+      position: static;
+      width: 28vw;
+      max-width: 150px;
+      height: auto;
+      transform-origin: 50% 100%;
+      animation: rowIn 800ms cubic-bezier(.2,.7,.2,1) backwards;
+    }
+    .sp2 { transform: rotate(-8deg); animation-delay: 60ms; }
+    .sp3 { transform: rotate(0deg);  animation-delay: 150ms; }
+    .sp4 { transform: rotate(8deg);  animation-delay: 240ms; }
+    .spoke img { transform: none; }
+
+    .hero-copy { margin-block-start: 0; max-width: 94vw; }
+    .hero p { font-size: 16.5px; margin-top: 20px; }
+    .hero .actions { margin-top: 26px; gap: 12px; }
+  }
+
+  @keyframes rowIn {
+    from { opacity: 0; transform: translateY(22px) rotate(0deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spoke { animation: none !important; }
   }
 
   /* ============ sections ============ */
