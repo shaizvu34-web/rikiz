@@ -214,48 +214,37 @@
   }
   .ghost:hover { color: var(--ink); border-bottom-color: var(--ink); }
 
+  .arch-mobile { display: none; }
+
   @media (max-width: 700px) {
-    /* בקשת רדיאלית על מסך צר הזוגות נערמים זה על זה: מרווח הקשת קטן
-       מרוחב תיבת התיחום שלהם. לכן במובייל מחליפים לשורה שטוחה של שלושה,
-       עם הטיה קלה — קומפוזיציה אחרת, לא כיווץ של הדסקטופ. */
+    /* קשת רדיאלית משש זרועות נערמת על עצמה במסך צר — אין מספיק רוחב.
+       במובייל מוצגת במקומה תמונת קשת אחת, שנשארת קשת בכל רוחב מסך.
+       הדסקטופ ממשיך להשתמש בזרועות. */
     .hero {
-      padding-top: 96px;
+      padding-top: 92px;
       overflow: visible;
     }
-    .stage {
-      position: static;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      gap: 2vw;
-      width: auto;
+    .stage { display: none; }
+
+    .arch-mobile {
+      display: block;
+      width: 96vw;
+      max-width: 470px;
       height: auto;
-      margin: 0 0 26px;
+      margin: 0 auto 4px;
+      animation: archIn 900ms cubic-bezier(.2,.7,.2,1) 120ms backwards;
     }
-    .sp1, .sp5, .sp6 { display: none; }
-    .spoke {
-      position: static;
-      width: 28vw;
-      max-width: 150px;
-      height: auto;
-      transform-origin: 50% 100%;
-      animation: rowIn 800ms cubic-bezier(.2,.7,.2,1) backwards;
-    }
-    .sp2 { transform: rotate(-8deg); animation-delay: 60ms; }
-    .sp3 { transform: rotate(0deg);  animation-delay: 150ms; }
-    .sp4 { transform: rotate(8deg);  animation-delay: 240ms; }
-    .spoke img { transform: none; }
 
     .hero-copy { margin-block-start: 0; max-width: 94vw; }
-    .hero p { font-size: 16.5px; margin-top: 20px; }
+    .hero p { font-size: 16.5px; margin-top: 18px; }
     .hero .actions { margin-top: 26px; gap: 12px; }
   }
 
-  @keyframes rowIn {
-    from { opacity: 0; transform: translateY(22px) rotate(0deg); }
+  @keyframes archIn {
+    from { opacity: 0; transform: translateY(20px) scale(.97); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .spoke { animation: none !important; }
+    .arch-mobile { animation: none; }
   }
 
   /* ============ sections ============ */
@@ -598,6 +587,8 @@
       <div class="spoke sp5"><img src="images/real/d16.png" alt=""></div>
       <div class="spoke sp6"><img src="images/real/d21.png" alt=""></div>
     </div>
+
+    <img class="arch-mobile" src="images/arch-mobile.png" alt="" aria-hidden="true">
 
     <div class="hero-copy rise">
       <span class="label">כפכפי הוויאנס · עבודת יד</span>
