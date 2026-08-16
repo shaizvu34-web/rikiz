@@ -111,6 +111,38 @@ def keep_main(alpha):
     return Image.composite(alpha, Image.new("L", alpha.size, 0), mask), len(comps) - len(keep)
 
 
+def roughness(alpha):
+    """יחס היקף לשטח. שאריות רקע מרופטות מקפיצות אותו בחדות."""
+    small = alpha.resize((160, round(160 * alpha.height / alpha.width)), Image.NEAREST)
+    w, h = small.size
+    px = small.load()
+    area = per = 0
+    for y in range(h):
+        for x in range(w):
+            if not px[x, y]:
+                continue
+            area += 1
+            if (x == 0 or not px[x-1, y]) or (x == w-1 or not px[x+1, y]) \
+               or (y == 0 or not px[x, y-1]) or (y == h-1 or not px[x, y+1]):
+                per += 1
+    return (per / area) if area else 99
+
+
+def best_cutout(im):
+    """בוחר את סף ההצפה שנותן את הצללית החלקה ביותר."""
+    global REACH
+    original = REACH
+    best = None
+    for r in (40, 48, 56, 64, 72, 80):
+        REACH = r
+        a, dropped = keep_main(cutout(im))
+        score = roughness(a)
+        if best is None or score < best[0] - 0.01:
+            best = (score, a, r, dropped)
+    REACH = original
+    return best[1], best[2], best[3]
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     products = {}
@@ -120,15 +152,17 @@ def main():
         im = Image.open(path)
         if rot:
             im = im.rotate(rot, expand=True)
-        alpha = cutout(im)
-        alpha, dropped = keep_main(alpha)
+        alpha, reach, dropped = best_cutout(im)
+        # פתיחה מורפולוגית: שוחקת ואז מרחיבה. מסלקת קוצים דקים ושאריות
+        # מרופטות של רקע בלי לכרסם את גוף המוצר.
+        alpha = alpha.filter(ImageFilter.MinFilter(5)).filter(ImageFilter.MaxFilter(5))
         alpha = alpha.filter(ImageFilter.GaussianBlur(0.8)).point(lambda v: 0 if v < 90 else v)
         rgba = im.convert("RGBA")
         rgba.putalpha(alpha)
         prod = rgba.crop(rgba.split()[3].getbbox())
         products[name] = prod
         print(f"{name}: מוצר {prod.width}x{prod.height} · יחס {prod.width/prod.height:.3f}"
-              f"{f' · הוסרו {dropped} כתמים' if dropped else ''}")
+              f" · reach={reach}{f' · הוסרו {dropped} כתמים' if dropped else ''}")
 
     widest = max(p.width / p.height for p in products.values())
     frame_w = round(PRODUCT_H * widest) + 70
