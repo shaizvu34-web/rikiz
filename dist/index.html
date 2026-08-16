@@ -426,11 +426,14 @@
     font-weight: 300;
   }
   .price-line b {
-    font-family: var(--display);
-    font-size: 22px;
-    font-weight: 500;
+    /* סאנס ולא סריף: הספרות של הסריף בסגנון ישן ולא נקראות כמחיר.
+       tabular-nums נותן לספרות רוחב אחיד. */
+    font-family: var(--body);
+    font-size: 20px;
+    font-weight: 600;
     color: var(--ink);
-    letter-spacing: -.01em;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
   }
 
   /* ============ מדריך מידות ============ */
