@@ -588,6 +588,55 @@
   .closing p { margin: 22px auto 34px; max-width: 40ch; color: var(--ink-soft); font-weight: 300; }
   .cta-lg { font-size: 16px; padding: 15px 34px; }
 
+  /* ============ אריחי טיקטוק ============ */
+
+  .tiktoks { margin-top: clamp(44px, 6vw, 68px); }
+  .tiktoks .label { display: block; margin-bottom: 16px; }
+
+  .tt-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+  .tt {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    background: var(--surface-2);
+    border: 1px solid var(--hair);
+  }
+  .tt img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    transition: transform 500ms cubic-bezier(.2,.6,.2,1);
+  }
+  .tt:hover img { transform: scale(1.05); }
+  .tt-go {
+    position: absolute;
+    inset-block-end: 8px;
+    inset-inline-end: 8px;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(4px);
+    transition: background 160ms ease;
+  }
+  .tt:hover .tt-go { background: var(--surface); }
+
+  .tt-profile { display: inline-block; margin-top: 18px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tt img { transition: none; }
+    .tt:hover img { transform: none; }
+  }
+
   /* ============ footer ============ */
 
   footer {
@@ -1395,6 +1444,21 @@
         ואחזור אלייך עם הצעה.
       </p>
       <a class="cta cta-lg" href="https://wa.me/972507551771?text=%D7%94%D7%99%D7%99%20%D7%A8%D7%99%D7%A7%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%99%D7%A6%D7%95%D7%91%D7%99%D7%9D%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%94%D7%96%D7%9E%D7%99%D7%9F%20%D7%96%D7%95%D7%92" target="_blank" rel="noopener">לפתוח שיחה בוואטסאפ</a>
+
+      <div class="tiktoks">
+        <span class="label">רגעים מהסטודיו</span>
+        <div class="tt-grid">
+          <a class="tt" href="https://www.tiktok.com/@havaianas_by.riki/photo/7651571910672796949" target="_blank" rel="noopener">
+            <img src="images/tiktok-1.jpg" alt="שני זוגות ורודים ארוזים במתנה עם פתק Love you" loading="lazy">
+            <span class="tt-go" aria-hidden="true">↗</span>
+          </a>
+          <a class="tt" href="https://www.tiktok.com/@havaianas_by.riki/photo/7649131969321651476" target="_blank" rel="noopener">
+            <img src="images/tiktok-2.jpg" alt="שמונה זוגות לבנים עם שיבוץ זהב, מקו הכלות" loading="lazy">
+            <span class="tt-go" aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <a class="ghost tt-profile" href="https://www.tiktok.com/@havaianas_by.riki" target="_blank" rel="noopener">עוד בטיקטוק · ‎@havaianas_by.riki</a>
+      </div>
     </div>
   </section>
 
