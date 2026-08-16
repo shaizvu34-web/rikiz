@@ -32,8 +32,16 @@ def shrink(rel):
     info = subprocess.run(["sips", "-g", "pixelWidth", src],
                           capture_output=True, text=True).stdout
     width = int(re.search(r"pixelWidth:\s*(\d+)", info).group(1))
-    if width <= MAX_W and rel.lower().endswith(".png"):
-        return src
+    if rel.lower().endswith(".png"):
+        # PNG עם שקיפות — סיפס מאבד איכות, ומעבר ל-500 פיקסל אין צורך בשיתוף
+        from PIL import Image
+        im = Image.open(src)
+        if im.width <= 500:
+            return src
+        os.makedirs(TMP, exist_ok=True)
+        dst = os.path.join(TMP, rel.replace("/", "_"))
+        im.resize((500, round(500 * im.height / im.width)), Image.LANCZOS).save(dst, optimize=True)
+        return dst
 
     dst = os.path.join(TMP, rel.replace("/", "_"))
     os.makedirs(TMP, exist_ok=True)
@@ -56,6 +64,14 @@ def main():
         font_css = font_css.replace(f"url({rel})", f"url({data_uri(os.path.join(ROOT, rel))})")
     html = html.replace('<link rel="stylesheet" href="fonts/frank-ruhl-libre.css">',
                         f"<style>\n{font_css}\n</style>")
+
+    # קבצי CSS ו-JS מקומיים מוטמעים גם הם — ארטיפקט חייב לעמוד בפני עצמו
+    for rel in re.findall(r'<link rel="stylesheet" href="([^"/]+\.css)">', html):
+        css = open(os.path.join(ROOT, rel), encoding="utf-8").read()
+        html = html.replace(f'<link rel="stylesheet" href="{rel}">', f"<style>\n{css}\n</style>")
+    for rel in re.findall(r'<script src="([^"/]+\.js)"></script>', html):
+        js = open(os.path.join(ROOT, rel), encoding="utf-8").read()
+        html = html.replace(f'<script src="{rel}"></script>', f"<script>\n{js}\n</script>")
 
     # 2. תמונות
     used = sorted(set(re.findall(r'src="(images/[^"]+)"', html)))

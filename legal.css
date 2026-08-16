@@ -1,0 +1,112 @@
+/* עמודי מידע — נגישות, פרטיות. אותה שפה עיצובית של האתר. */
+
+:root {
+  --ground:    #E9EAE5;
+  --surface:   #F7F7F4;
+  --surface-2: #DFE1DA;
+  --ink:       #16181A;
+  --ink-soft:  #6C716D;
+  --hair:      #C6C9C1;
+  --mark:      #B5473A;
+
+  --body: system-ui, -apple-system, "Arial Hebrew", "Segoe UI", sans-serif;
+  --display: "Frank Ruhl Libre", "New Peninim MT", Georgia, serif;
+  --serif: "Didot", "Bodoni 72", Georgia, serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+a:focus-visible { outline: 2px solid var(--mark); outline-offset: 3px; }
+
+.page { max-width: 740px; margin: 0 auto; padding: 0 22px 90px; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--hair);
+  margin-bottom: 46px;
+}
+.wordmark {
+  font-family: var(--serif);
+  font-size: 24px;
+  letter-spacing: .22em;
+  direction: ltr;
+  text-decoration: none;
+  padding-inline-end: .22em;
+}
+.back { font-size: 14.5px; color: var(--ink-soft); text-decoration: none; }
+.back:hover { color: var(--ink); }
+
+.label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+h1 {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(32px, 6vw, 48px);
+  line-height: 1.12;
+  margin: 12px 0 0;
+}
+
+.lede { margin: 20px 0 0; color: var(--ink-soft); font-size: 18px; max-width: 56ch; }
+
+h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 23px;
+  margin: 46px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--hair);
+}
+h3 { font-size: 17.5px; font-weight: 600; margin: 26px 0 0; }
+
+p { margin: 14px 0 0; }
+ul { margin: 14px 0 0; padding-inline-start: 22px; }
+li { margin-bottom: 9px; }
+
+strong, b { font-weight: 600; }
+
+.box {
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  padding: 20px 22px;
+  margin-top: 22px;
+}
+.box p:first-child { margin-top: 0; }
+
+dl { margin: 16px 0 0; display: grid; grid-template-columns: 12ch 1fr; gap: 8px 16px; }
+dt { color: var(--ink-soft); font-size: 15px; }
+dd { margin: 0; }
+
+.updated {
+  margin-top: 46px;
+  padding-top: 18px;
+  border-top: 1px solid var(--ink);
+  font-size: 14.5px;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 560px) {
+  dl { grid-template-columns: 1fr; gap: 2px 0; }
+  dt { margin-top: 10px; }
+}
