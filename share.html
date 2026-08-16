@@ -629,14 +629,14 @@ html.a11y-cursor, html.a11y-cursor * {
     font-weight: 300;
   }
   .price-line b {
-    /* סאנס ולא סריף: הספרות של הסריף בסגנון ישן ולא נקראות כמחיר.
-       tabular-nums נותן לספרות רוחב אחיד. */
-    font-family: var(--body);
-    font-size: 20px;
-    font-weight: 600;
+    /* אותו סריף של הלוגו — ספרות ליניאריות ואלגנטיות שמתחברות
+       למראה הכולל, בניגוד לספרות בסגנון ישן של הסריף העברי. */
+    font-family: var(--serif);
+    font-size: 25px;
+    font-weight: 400;
     color: var(--ink);
-    letter-spacing: 0;
-    font-variant-numeric: tabular-nums;
+    letter-spacing: .015em;
+    font-variant-numeric: lining-nums tabular-nums;
   }
 
   /* ============ מדריך מידות ============ */
@@ -937,11 +937,15 @@ html.a11y-cursor, html.a11y-cursor * {
   /* ============ signature ============ */
 
   .sig {
-    font-family: var(--serif);
-    font-size: 25px;
-    font-style: italic;
-    color: var(--ink) !important;
-    margin-top: 26px !important;
+    font-family: var(--display);
+    font-size: clamp(21px, 3vw, 27px);
+    font-weight: 400;
+    color: var(--ink);
+    text-align: center;
+    max-width: 30ch;
+    margin: clamp(30px, 4vw, 46px) auto 0;
+    padding-top: clamp(24px, 3vw, 34px);
+    border-top: 1px solid var(--hair);
   }
 
   /* ============ motion ============ */
@@ -1269,7 +1273,7 @@ html.a11y-cursor, html.a11y-cursor * {
       <article class="step rise">
         <span class="label">ראשון</span>
         <h3>בחירת הצבע</h3>
-        <p>לבן, שחור, ורוד פודרה, סגול, כחול, צהוב או חול. הצבע שיישא את הכל.</p>
+        <p>לבן, שחור, ורוד פודרה, סגול, כחול או צהוב. הצבע שיישא את הכל.</p>
       </article>
       <article class="step rise">
         <span class="label">שני</span>
@@ -1711,8 +1715,9 @@ html.a11y-cursor, html.a11y-cursor * {
           ומאז, אני פשוט זוכה לעשות את מה שאני אוהבת, ולהפוך את הצעדים שלכן
           למנצנצים וייחודיים.
         </p>
-        <p class="sig">נעים מאוד, אני ריקי זבולון.</p>
       </div>
+
+      <p class="sig rise">נעים מאוד, אני ריקי זבולון.</p>
     </div>
   </section>
 
