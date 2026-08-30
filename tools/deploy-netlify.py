@@ -22,7 +22,7 @@ API = "https://api.netlify.com/api/v1"
 # מה עולה לאוויר. כל השאר — כלים, גיבויים והיסטוריית git — נשאר מקומי.
 INCLUDE_FILES = ["index.html", "accessibility.html", "privacy.html",
                  "a11y.css", "a11y.js", "legal.css",
-                 "entry-preview.html"]  # תצוגת כניסה — לא מקושרת, noindex
+                 "entry-preview.html", "mobile-hero-trial.html"]  # תצוגת כניסה — לא מקושרת, noindex
 INCLUDE_DIRS = ["images", "fonts"]
 SKIP_SUFFIX = (".DS_Store",)
 
