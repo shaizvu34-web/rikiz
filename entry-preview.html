@@ -130,7 +130,19 @@
   }
   .intro.is-hidden { display: none; }
   .intro-slide { position: absolute; inset: 0; opacity: 0; transform: scale(1.08); }
-  .intro-slide img { width: 100%; height: 100%; object-fit: cover; }
+  /* רקע מטושטש ממלא את המסך, והצילום החד נשאר שלם במרכז — אין חיתוך של הכפכף */
+  .intro-slide .bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: blur(26px) brightness(0.5);
+    transform: scale(1.15);
+  }
+  .intro-slide .fg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+  }
   .intro-slide.is-active {
     opacity: 1; transform: scale(1);
     transition: opacity .6s ease, transform 1s cubic-bezier(0.25, 0, 0.25, 1);
@@ -178,15 +190,15 @@
 
   /* המחוון המצויר — צדפה שמציירת את עצמה, אז ניצוץ. אותה שפה של
      אנימציות ה-SVG שכבר קיימות ב-index.html (תפירת הרצועה, הג'ם). */
-  .hero-mark { width: 86px; height: 86px; margin-bottom: 24px; opacity: 0; }
+  .hero-mark { width: 92px; height: 92px; margin-bottom: 22px; opacity: 0; }
   .hero-mark.is-visible { opacity: 1; transition: opacity .4s ease; }
-  .hero-mark path, .hero-mark line { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-  .hero-mark .facet { stroke-width: 1.2; stroke: var(--ink-soft); }
-  .hero-mark .spark { stroke: var(--mark); stroke-width: 1.8; }
-  .hero-mark .draw { stroke-dasharray: 400; stroke-dashoffset: 400; }
-  .hero-mark.is-drawing .outline { animation: draw 1.2s cubic-bezier(0.65,0,0.35,1) forwards; }
-  .hero-mark.is-drawing .facet   { animation: draw 0.7s cubic-bezier(0.65,0,0.35,1) .9s forwards; }
-  .hero-mark.is-drawing .spark   { animation: draw 0.5s ease 1.5s forwards; }
+  .hero-mark path { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .hero-mark .facet { stroke-width: 1; stroke: var(--ink-soft); }
+  .hero-mark .spark { stroke: var(--mark); stroke-width: 1.6; }
+  .hero-mark .draw { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .hero-mark.is-drawing .outline { animation: draw 1.3s cubic-bezier(0.65,0,0.35,1) forwards; }
+  .hero-mark.is-drawing .facet   { animation: draw 0.8s cubic-bezier(0.65,0,0.35,1) 1s forwards; }
+  .hero-mark.is-drawing .spark   { animation: draw 0.45s ease 1.7s forwards; }
   @keyframes draw { to { stroke-dashoffset: 0; } }
 
   /* חשיפת המילה RIKIZ משמאל לימין — באותיות הלוגו (Didot), כמו ב-header */
@@ -350,8 +362,14 @@
 
 <!-- אינטרו — שלושה צילומים על רקע ניטרלי (בלי הכפכף על הדשא) -->
 <div class="intro" id="intro" aria-hidden="true">
-  <div class="intro-slide"><img src="images/d24.jpg" alt=""></div>
-  <div class="intro-slide"><img src="images/d26.jpg" alt=""></div>
+  <div class="intro-slide">
+    <img class="bg" src="images/d24.jpg" alt="" aria-hidden="true">
+    <img class="fg" src="images/d24.jpg" alt="">
+  </div>
+  <div class="intro-slide">
+    <img class="bg" src="images/d26.jpg" alt="" aria-hidden="true">
+    <img class="fg" src="images/d26.jpg" alt="">
+  </div>
   <div class="intro-logo" id="introLogo"><span>RIKIZ</span></div>
 </div>
 
@@ -372,17 +390,16 @@
 <main>
   <!-- HERO -->
   <div class="hero">
-    <svg class="hero-mark" id="heroMark" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <!-- מתאר הצדפה: ציר בתחתית, מניפה כלפי מעלה עם קצה עליון מסולסל -->
-      <path class="draw outline" d="M48 79 C31 78 13 58 14 34 q5.3 -7 10.4 0 q5.3 -7 10.4 0 q5.3 -7 10.4 0 q5.3 -7 10.4 0 q5.3 -7 10.4 0 q5.3 -7 10.4 0 q5.3 -7 10.4 0 C83 58 65 78 48 79 Z"/>
-      <!-- אוזני הציר -->
-      <path class="draw outline" d="M43 79 q-9 0 -12 5 q7 3 13 1 M53 79 q9 0 12 5 q-7 3 -13 1"/>
-      <!-- קווי גדילה שעוקבים אחרי הקצה -->
-      <path class="draw facet" d="M19 47 Q48 37 77 47 M16 40 Q48 28 80 40"/>
-      <!-- צלעות מתפצלות מהציר -->
-      <path class="draw facet" d="M48 77 L15 41 M48 77 L25 36 M48 77 L36 33 M48 77 L48 32 M48 77 L60 33 M48 77 L71 36 M48 77 L81 41"/>
-      <!-- ניצוץ בן ארבע קצוות -->
-      <path class="draw spark" d="M80 8 L81.7 13.9 L87.5 15.5 L81.7 17.1 L80 23 L78.3 17.1 L72.5 15.5 L78.3 13.9 Z"/>
+    <svg class="hero-mark" id="heroMark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- מתאר הצדפה — מניפה סימטרית, קצה חיצוני מסולסל, ציר עם אוזניים -->
+      <path class="draw outline" pathLength="1" d="M15.77 58.24 Q18.91 56.23 17.25 50.52 Q20.94 48.94 20.59 42.95 Q24.81 42.03 25.83 36.13 Q30.47 36.11 32.79 30.71 Q37.62 31.78 41.04 27.21 Q45.76 29.49 50.00 26.00 Q54.24 29.49 58.96 27.21 Q62.38 31.78 67.21 30.71 Q69.53 36.11 74.17 36.13 Q75.19 42.03 79.41 42.95 Q79.06 48.94 82.75 50.52 Q81.09 56.23 84.23 58.24 C84.00 70.00 66.00 77.00 55.00 78.00 Q50.00 79.60 45.00 78.00 C34.00 77.00 16.00 70.00 15.77 58.24 Z"/>
+      <path class="draw outline" pathLength="1" d="M45.50 77.50 L34.00 80.50 Q31.00 82.00 33.00 84.50 L46.00 81.50 Z M54.50 77.50 L66.00 80.50 Q69.00 82.00 67.00 84.50 L54.00 81.50 Z"/>
+      <!-- צלעות המניפה -->
+      <path class="draw facet" pathLength="1" d="M45.67 75.50 L18.37 59.74 M46.17 74.79 L19.55 52.45 M46.79 74.17 L22.51 45.24 M47.50 73.67 L27.33 38.73 M48.29 73.30 L33.81 33.53 M49.13 73.08 L41.57 30.16 M50.00 73.00 L50.00 29.00 M50.87 73.08 L58.43 30.16 M51.71 73.30 L66.19 33.53 M52.50 73.67 L72.67 38.73 M53.21 74.17 L77.49 45.24 M53.83 74.79 L80.45 52.45 M54.33 75.50 L81.63 59.74"/>
+      <!-- קווי גדילה קונצנטריים -->
+      <path class="draw facet" pathLength="1" d="M36.17 68.81 Q50.00 52.16 63.83 68.81 M29.59 64.44 Q50.00 41.76 70.41 64.44"/>
+      <!-- ניצוץ עדין -->
+      <path class="draw spark" pathLength="1" d="M84 14 L85.4 19 L90 20.5 L85.4 22 L84 27 L82.6 22 L78 20.5 L82.6 19 Z"/>
     </svg>
 
     <div class="hero-word" id="heroWord">RIKIZ</div>
@@ -472,9 +489,9 @@
   var SLIDE_MS = 1500, LOGO_MS = 1200;
 
   // טעינה מוקדמת של תמונות האינטרו כדי שכל שקופית תיראה במלואה
-  slides.forEach(function (s) {
+  intro.querySelectorAll('img').forEach(function (img) {
     var im = new Image();
-    im.src = s.querySelector('img').getAttribute('src');
+    im.src = img.getAttribute('src');
   });
 
   function startHero() {
