@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RIKIZ — תצוגת כניסה</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="fonts/frank-ruhl-libre.css">
+<style>
+  :root {
+    /* גוונים — זהים ל-index.html של האתר הקיים */
+    --ground:    #E9EAE5;
+    --surface:   #F7F7F4;
+    --surface-2: #DFE1DA;
+    --stone:     #E4E4E2;
+    --ink:       #16181A;
+    --ink-soft:  #6C716D;
+    --hair:      #C6C9C1;
+    --mark:      #B5473A;
+
+    --body: system-ui, -apple-system, "Arial Hebrew", "Segoe UI", sans-serif;
+    --display: "Frank Ruhl Libre", "New Peninim MT", "Didot", Georgia, serif;
+    --serif: "Didot", "Bodoni 72", Georgia, "Times New Roman", serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+    --ease: cubic-bezier(0.23, 1, 0.32, 1);
+    --gut: clamp(20px, 5vw, 64px);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    overflow-x: hidden;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--mark); outline-offset: 4px; }
+
+  .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ═══════════ 1 · פס עליון ═══════════ */
+  .topbar {
+    background: var(--ink);
+    color: var(--ground);
+    text-align: center;
+    padding: 9px 16px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    gap: 34px;
+    position: relative;
+    z-index: 20;
+  }
+  .topbar span + span::before { content: "·"; color: var(--ink-soft); margin-inline-end: 34px; }
+  body.intro-done .topbar { animation: fade-down 0.6s ease 0.1s both; }
+  @media (max-width: 620px) {
+    .topbar { flex-direction: column; gap: 2px; }
+    .topbar span + span::before { content: none; }
+  }
+
+  /* ═══════════ 2 · תפריט ═══════════ */
+  header {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px var(--gut);
+    background: color-mix(in srgb, var(--ground) 88%, transparent);
+    backdrop-filter: saturate(140%) blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 200ms ease;
+  }
+  header.stuck { border-bottom-color: var(--hair); }
+  body.intro-done header { animation: fade-down 0.6s ease 0.2s both; }
+  header .wordmark {
+    font-family: var(--serif);
+    font-size: 27px;
+    letter-spacing: 0.22em;
+    direction: ltr;
+    line-height: 1;
+    padding-inline-end: 0.22em;
+  }
+  header nav { display: flex; gap: 26px; align-items: center; font-size: 14.5px; color: var(--ink-soft); }
+  header nav a { transition: color 160ms ease; }
+  header nav a:hover { color: var(--ink); }
+  header nav a.cta {
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    color: var(--mark);
+    border: 1px solid var(--mark);
+    padding: 9px 18px;
+    transition: background 160ms ease, color 160ms ease;
+    white-space: nowrap;
+  }
+  header nav a.cta:hover { background: var(--mark); color: var(--surface); }
+  @media (max-width: 780px) { header nav a.plain { display: none; } }
+
+  @keyframes fade-down {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ═══════════ 3 · אינטרו קולנועי ═══════════ */
+  .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #000;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .intro.is-hidden { display: none; }
+  .intro-slide { position: absolute; inset: 0; opacity: 0; transform: scale(1.08); }
+  .intro-slide img { width: 100%; height: 100%; object-fit: cover; }
+  .intro-slide.is-active {
+    opacity: 1; transform: scale(1);
+    transition: opacity .6s ease, transform 1s cubic-bezier(0.25, 0, 0.25, 1);
+  }
+  .intro-slide.is-exiting {
+    opacity: 0; transform: scale(1.03);
+    transition: opacity .6s ease, transform .7s ease;
+  }
+  .intro-logo {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; background: rgba(0,0,0,.4);
+  }
+  .intro-logo.is-visible { opacity: 1; transition: opacity .5s ease; }
+  .intro-logo span {
+    font-family: var(--serif);
+    direction: ltr;
+    color: var(--ground);
+    font-size: clamp(46px, 11vw, 132px);
+    letter-spacing: 0.2em;
+    padding-inline-start: 0.2em;
+    transform: scale(.94);
+  }
+  .intro-logo.is-visible span { transform: scale(1); transition: transform .8s var(--ease); }
+  .intro.is-exiting { opacity: 0; transition: opacity .7s ease; }
+
+  body.intro-active { overflow: hidden; }
+  body.intro-active .topbar,
+  body.intro-active header,
+  body.intro-active main { opacity: 0; }
+
+  /* ═══════════ 4 · HERO ═══════════ */
+  .hero {
+    position: relative;
+    min-height: calc(min(100vh, 860px) - 62px);
+    background: linear-gradient(180deg, var(--stone) 0%, var(--ground) 78%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: clamp(56px, 9vh, 96px) var(--gut) clamp(72px, 11vh, 110px);
+    overflow: hidden;
+  }
+
+  /* המחוון המצויר — יהלום שמצייר את עצמו, אז ניצוץ. אותה שפה של
+     אנימציות ה-SVG שכבר קיימות ב-index.html (תפירת הרצועה, הג'ם). */
+  .hero-mark { width: 84px; height: 84px; margin-bottom: 26px; opacity: 0; }
+  .hero-mark.is-visible { opacity: 1; transition: opacity .4s ease; }
+  .hero-mark path, .hero-mark line { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .hero-mark .facet { stroke-width: 1.3; stroke: var(--ink-soft); }
+  .hero-mark .spark { stroke: var(--mark); stroke-width: 2.6; }
+  .hero-mark .draw { stroke-dasharray: 400; stroke-dashoffset: 400; }
+  .hero-mark.is-drawing .outline { animation: draw 1.2s cubic-bezier(0.65,0,0.35,1) forwards; }
+  .hero-mark.is-drawing .facet   { animation: draw 0.7s cubic-bezier(0.65,0,0.35,1) .9s forwards; }
+  .hero-mark.is-drawing .spark   { animation: draw 0.5s ease 1.5s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  /* חשיפת המילה RIKIZ משמאל לימין — באותיות הלוגו (Didot), כמו ב-header */
+  .hero-word {
+    font-family: var(--serif);
+    direction: ltr;
+    font-weight: 400;
+    font-size: clamp(52px, 12vw, 140px);
+    letter-spacing: 0.16em;
+    padding-inline-start: 0.16em;
+    line-height: 1;
+    margin: 0 0 4px;
+    color: var(--ink);
+    opacity: 0;
+  }
+  .hero-word.is-visible { opacity: 1; }
+  .hero-word.is-drawing { clip-path: inset(0 100% 0 0); animation: word-wipe 2s ease forwards; }
+  @keyframes word-wipe {
+    0%{clip-path:inset(0 100% 0 0)} 12%{clip-path:inset(0 76% 0 0)} 20%{clip-path:inset(0 76% 0 0)}
+    32%{clip-path:inset(0 56% 0 0)} 40%{clip-path:inset(0 56% 0 0)} 52%{clip-path:inset(0 38% 0 0)}
+    60%{clip-path:inset(0 38% 0 0)} 72%{clip-path:inset(0 20% 0 0)} 80%{clip-path:inset(0 20% 0 0)}
+    100%{clip-path:inset(0 0 0 0)}
+  }
+
+  .hero-content { opacity: 0; transform: translateY(16px); display: flex; flex-direction: column; align-items: center; }
+  .hero-content.is-visible { animation: hero-up 0.7s var(--ease) forwards; }
+  @keyframes hero-up { to { opacity: 1; transform: translateY(0); } }
+
+  .hero-eyebrow { margin-bottom: 20px; }
+  .hero-rule { width: 52px; height: 1px; background: var(--hair); margin-bottom: 22px; }
+  .hero-desc {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(19px, 2.7vw, 27px);
+    line-height: 1.3;
+    margin-bottom: 34px;
+    text-wrap: balance;
+    max-width: 22ch;
+  }
+  .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: center; }
+  .hero-btn {
+    display: inline-block;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    color: var(--mark);
+    border: 1px solid var(--mark);
+    padding: 11px 26px;
+    transition: background 160ms ease, color 160ms ease;
+  }
+  .hero-btn:hover { background: var(--mark); color: var(--surface); }
+  .hero-ghost {
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--hair);
+    padding-bottom: 3px;
+    transition: color 160ms ease, border-color 160ms ease;
+  }
+  .hero-ghost:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+  .hero-scroll {
+    position: absolute; bottom: 22px; left: 50%;
+    transform: translateX(-50%);
+    opacity: .35; animation: bounce 2s ease-in-out infinite;
+  }
+  .hero-scroll svg { stroke: var(--ink); }
+  @keyframes bounce {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50%     { transform: translateX(-50%) translateY(7px); }
+  }
+
+  /* ═══════════ 5 · סקשנים שנחשפים בגלילה ═══════════ */
+  section { padding: clamp(64px, 9vw, 120px) var(--gut); }
+  .sec-head {
+    border-top: 1px solid var(--ink);
+    padding-top: 18px;
+    margin-bottom: clamp(34px, 5vw, 56px);
+    max-width: 1120px;
+    margin-inline: auto;
+  }
+  .sec-head .label { display: block; }
+  .sec-head h2 {
+    font-family: var(--display);
+    font-size: clamp(27px, 4vw, 42px);
+    font-weight: 300;
+    letter-spacing: -0.004em;
+    margin: 10px 0 0;
+    text-wrap: balance;
+  }
+  .sec-head p { margin: 16px 0 0; color: var(--ink-soft); max-width: 48ch; font-size: 16.5px; font-weight: 300; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(14px, 2vw, 26px);
+    max-width: 1120px;
+    margin-inline: auto;
+  }
+  @media (max-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  .item figure { margin: 0 0 12px; overflow: hidden; background: var(--surface-2); }
+  .item img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; transition: transform 600ms cubic-bezier(.2,.6,.2,1); }
+  .item:hover img { transform: scale(1.04); }
+  .item h3 { margin: 0; font-family: var(--display); font-size: 17.5px; font-weight: 400; }
+  .item .label { display: block; margin-top: 2px; }
+
+  .quote { background: var(--surface); text-align: center; }
+  .quote blockquote {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(23px, 3.6vw, 36px);
+    line-height: 1.5;
+    max-width: 24ch;
+    margin: 0 auto;
+    text-wrap: balance;
+  }
+  .quote cite { display: block; margin-top: 24px; font-style: normal; }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: clamp(20px, 3vw, 40px);
+    max-width: 1120px;
+    margin-inline: auto;
+  }
+  .steps .n { font-family: var(--serif); direction: ltr; font-size: 26px; color: var(--mark); }
+  .steps h3 { margin: 10px 0 6px; font-family: var(--display); font-size: 21px; font-weight: 400; }
+  .steps p { color: var(--ink-soft); font-size: 15.5px; font-weight: 300; margin: 0; }
+
+  .reveal { opacity: 0; transform: translateY(22px); }
+  .reveal.is-visible { opacity: 1; transform: none; transition: opacity .7s ease, transform .9s var(--ease); }
+
+  footer {
+    text-align: center;
+    padding: clamp(48px, 7vw, 80px) var(--gut);
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-top: 1px solid var(--hair);
+  }
+
+  /* כפתור עזר לתצוגה בלבד — לא חלק מהאתר */
+  .replay {
+    position: fixed; bottom: 16px; inset-inline-end: 16px; z-index: 60;
+    background: var(--ink); color: var(--ground);
+    border: 0; padding: 9px 16px;
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; opacity: .8;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .intro { display: none !important; }
+    .hero-mark, .hero-word, .hero-content, .reveal { opacity: 1 !important; transform: none !important; animation: none !important; clip-path: none !important; }
+    .hero-mark .draw { stroke-dashoffset: 0 !important; }
+    .hero-scroll { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- אינטרו — שלושה צילומים על רקע ניטרלי (בלי הכפכף על הדשא) -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro-slide"><img src="images/d25.jpg" alt=""></div>
+  <div class="intro-slide"><img src="images/d24.jpg" alt=""></div>
+  <div class="intro-slide"><img src="images/d26.jpg" alt=""></div>
+  <div class="intro-logo" id="introLogo"><span>RIKIZ</span></div>
+</div>
+
+<div class="topbar">
+  <span>משלוח חינם בהזמנה מעל ₪450</span>
+  <span>עבודת יד · אבן אחר אבן</span>
+</div>
+
+<header id="hdr">
+  <a href="#" class="wordmark">RIKIZ</a>
+  <nav aria-label="ניווט ראשי">
+    <a href="#collection" class="plain">הקולקציה</a>
+    <a href="#process" class="plain">התהליך</a>
+    <a class="cta" href="#">להזמנת עיצוב</a>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <div class="hero">
+    <svg class="hero-mark" id="heroMark" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path class="draw outline" d="M48 10 L82 40 L48 86 L14 40 Z"/>
+      <path class="draw facet" d="M14 40 L82 40 M32 40 L48 86 M64 40 L48 86 M48 10 L32 40 M48 10 L64 40"/>
+      <line class="draw spark" x1="48" y1="2" x2="48" y2="14"/>
+      <line class="draw spark" x1="88" y1="20" x2="80" y2="26"/>
+    </svg>
+
+    <div class="hero-word" id="heroWord">RIKIZ</div>
+
+    <div class="hero-content" id="heroContent">
+      <span class="label hero-eyebrow">כפכפי הוואיאנס · עבודת יד</span>
+      <div class="hero-rule"></div>
+      <p class="hero-desc">מכפכף לתכשיט — כל זוג משובץ ביד</p>
+      <div class="hero-actions">
+        <a class="hero-btn" href="#collection">לראות את הקולקציה</a>
+        <a class="hero-ghost" href="#process">איך זה נוצר</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+
+  <!-- קולקציה -->
+  <section id="collection">
+    <div class="sec-head reveal">
+      <span class="label">הקולקציה</span>
+      <h2>כל דגם, סיפור קטן</h2>
+      <p>האוסף המלא — כל זוג נתפר ביד, לפי הזמנה.</p>
+    </div>
+    <div class="grid">
+      <div class="item reveal">
+        <figure><img src="images/d25.jpg" alt="דגם פנינים לבן"></figure>
+        <h3>פנינים</h3><span class="label">לבן · פנינים לכלה</span>
+      </div>
+      <div class="item reveal">
+        <figure><img src="images/d24.jpg" alt="דגם ורד פודרה"></figure>
+        <h3>ורד פודרה</h3><span class="label">ורוד · קריסטלים</span>
+      </div>
+      <div class="item reveal">
+        <figure><img src="images/d26.jpg" alt="דגם צדפה שחורה"></figure>
+        <h3>צדפה שחורה</h3><span class="label">שחור · תליוני זהב</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ציטוט -->
+  <section class="quote">
+    <blockquote class="reveal">
+      &#8220;כל זוג נתפר ביד, זוג-זוג — בלי שני זוגות זהים.&#8221;
+      <cite class="label">ריקי זבולון</cite>
+    </blockquote>
+  </section>
+
+  <!-- התהליך -->
+  <section id="process">
+    <div class="sec-head reveal">
+      <span class="label">התהליך</span>
+      <h2>לא בוחרים מהמדף, בונים</h2>
+    </div>
+    <div class="steps">
+      <div class="reveal">
+        <div class="n">01</div>
+        <h3>בחירת הצבע</h3>
+        <p>גוף הכפכף שיישא את הכל — לבן, שחור, ורוד פודרה ועוד.</p>
+      </div>
+      <div class="reveal">
+        <div class="n">02</div>
+        <h3>השיבוץ</h3>
+        <p>שורת אבנים עדינה, אבני חן גדולות או פנינים. כאן נקבע האופי.</p>
+      </div>
+      <div class="reveal">
+        <div class="n">03</div>
+        <h3>העיצוב האישי</h3>
+        <p>כוכב ים, צדפה, או בלי כלום. הפרט שהופך את הזוג לשלך.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>תצוגת כניסה · RIKIZ · לא לפרסום</footer>
+
+<button class="replay" id="replay">&#8635; הצג את הכניסה שוב</button>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var intro = document.getElementById('intro');
+  var logo = document.getElementById('introLogo');
+  var slides = intro.querySelectorAll('.intro-slide');
+  var SLIDE_MS = 1000, LOGO_MS = 1200;
+
+  function startHero() {
+    var mark = document.getElementById('heroMark');
+    var word = document.getElementById('heroWord');
+    var content = document.getElementById('heroContent');
+    mark.classList.add('is-visible');
+    setTimeout(function () { mark.classList.add('is-drawing'); }, 100);
+    setTimeout(function () { word.classList.add('is-visible', 'is-drawing'); }, 900);
+    setTimeout(function () { content.classList.add('is-visible'); }, 2200);
+  }
+
+  function runIntro() {
+    document.body.classList.add('intro-active');
+    var i = 0;
+    slides[0].classList.add('is-active');
+    (function next() {
+      i++;
+      if (i < slides.length) {
+        slides[i - 1].classList.remove('is-active');
+        slides[i - 1].classList.add('is-exiting');
+        slides[i].classList.add('is-active');
+        setTimeout(next, SLIDE_MS);
+      } else {
+        logo.classList.add('is-visible');
+        setTimeout(function () {
+          intro.classList.add('is-exiting');
+          document.body.classList.remove('intro-active');
+          document.body.classList.add('intro-done');
+        }, LOGO_MS);
+        setTimeout(function () {
+          intro.classList.add('is-hidden');
+          sessionStorage.setItem('rikiz-intro-seen', '1');
+          startHero();
+        }, LOGO_MS + 700);
+      }
+    })();
+    setTimeout(next, SLIDE_MS);
+  }
+
+  if (reduce || sessionStorage.getItem('rikiz-intro-seen')) {
+    intro.classList.add('is-hidden');
+    document.body.classList.add('intro-done');
+    startHero();
+  } else {
+    runIntro();
+  }
+
+  // hairline לתפריט בגלילה — כמו באתר
+  var hdr = document.getElementById('hdr');
+  var onScroll = function () { hdr.classList.toggle('stuck', window.scrollY > 8); };
+  onScroll();
+  addEventListener('scroll', onScroll, { passive: true });
+
+  // חשיפה בגלילה
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e, i) {
+      if (!e.isIntersecting) return;
+      e.target.style.transitionDelay = Math.min(i * 60, 240) + 'ms';
+      e.target.classList.add('is-visible');
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+  document.getElementById('replay').addEventListener('click', function () {
+    sessionStorage.removeItem('rikiz-intro-seen');
+    location.reload();
+  });
+})();
+</script>
+</body>
+</html>
