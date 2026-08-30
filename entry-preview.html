@@ -176,9 +176,9 @@
     overflow: hidden;
   }
 
-  /* המחוון המצויר — יהלום שמצייר את עצמו, אז ניצוץ. אותה שפה של
+  /* המחוון המצויר — צדפה שמציירת את עצמה, אז ניצוץ. אותה שפה של
      אנימציות ה-SVG שכבר קיימות ב-index.html (תפירת הרצועה, הג'ם). */
-  .hero-mark { width: 84px; height: 84px; margin-bottom: 26px; opacity: 0; }
+  .hero-mark { width: 86px; height: 86px; margin-bottom: 24px; opacity: 0; }
   .hero-mark.is-visible { opacity: 1; transition: opacity .4s ease; }
   .hero-mark path, .hero-mark line { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
   .hero-mark .facet { stroke-width: 1.3; stroke: var(--ink-soft); }
@@ -350,7 +350,6 @@
 
 <!-- אינטרו — שלושה צילומים על רקע ניטרלי (בלי הכפכף על הדשא) -->
 <div class="intro" id="intro" aria-hidden="true">
-  <div class="intro-slide"><img src="images/d25.jpg" alt=""></div>
   <div class="intro-slide"><img src="images/d24.jpg" alt=""></div>
   <div class="intro-slide"><img src="images/d26.jpg" alt=""></div>
   <div class="intro-logo" id="introLogo"><span>RIKIZ</span></div>
@@ -374,10 +373,13 @@
   <!-- HERO -->
   <div class="hero">
     <svg class="hero-mark" id="heroMark" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path class="draw outline" d="M48 10 L82 40 L48 86 L14 40 Z"/>
-      <path class="draw facet" d="M14 40 L82 40 M32 40 L48 86 M64 40 L48 86 M48 10 L32 40 M48 10 L64 40"/>
-      <line class="draw spark" x1="48" y1="2" x2="48" y2="14"/>
-      <line class="draw spark" x1="88" y1="20" x2="80" y2="26"/>
+      <!-- מתאר הצדפה: ציר בתחתית, מניפה כלפי מעלה עם קצה עליון מסולסל -->
+      <path class="draw outline" d="M48 82 C28 80 11 60 12 39 q6.2 -8 12.3 0 q6.2 -8 12.3 0 q6.2 -8 12.3 0 q6.2 -8 12.3 0 q6.2 -8 12.3 0 q6.2 -8 12.3 0 C84 60 68 80 48 82 Z"/>
+      <!-- צלעות מתפצלות מהציר -->
+      <path class="draw facet" d="M48 80 L16 42 M48 80 L31 40 M48 80 L48 39 M48 80 L65 40 M48 80 L80 42"/>
+      <!-- ניצוץ -->
+      <line class="draw spark" x1="80" y1="12" x2="80" y2="24"/>
+      <line class="draw spark" x1="74" y1="18" x2="86" y2="18"/>
     </svg>
 
     <div class="hero-word" id="heroWord">RIKIZ</div>
