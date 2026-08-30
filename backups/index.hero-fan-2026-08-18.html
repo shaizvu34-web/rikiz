@@ -124,72 +124,70 @@
 
   /* ============ hero ============ */
 
-  /* כניסה מפוצלת: הכותרת מובילה מצד ההתחלה, זוג אחד בגודל מלא יורד עד
-     קצה המסך בצד השני. אותה שפה בדיוק כמו הנייד — כניסה אחת, לא שתיים.
-     הגרסה הקודמת, קשת של שישה זוגות, שמורה ב-backups/. */
   .hero {
+    --r: clamp(250px, 34vw, 450px);   /* רדיוס הקשת — זהה לכל הזרועות, כלומר מעגל */
+    --w: clamp(74px, 10vw, 132px);    /* רוחב זוג — התמונות לאורך, אז צר יותר */
+    --arc-y: calc(var(--r) + 40px);   /* מרכז הקשת, מלמעלה */
+
     --pad-top: clamp(100px, 12vh, 138px);
     position: relative;
-    display: grid;
-    /* שני חצאים שווים: הצילום ממלא את חציו מקצה המסך ועד האמצע,
-       הטקסט מתמרכז בחצי השני. בלי מרווחים חיצוניים שיטו את מרכז הכובד. */
-    grid-template-columns: 1fr 1fr;
-    align-items: stretch;
-    gap: 0;
-    /* בלי תקרה, חצי מסך של 1920 נותן צילום רוחבי שחותך את הזוג */
-    max-width: 1680px;
-    margin-inline: auto;
-    min-height: min(100vh, 820px);
-    padding-block: var(--pad-top) 0;
-    padding-inline: 0;
+    padding: var(--pad-top) var(--gut) clamp(64px, 9vh, 104px);
+    text-align: center;
     overflow: hidden;
   }
+
+  .stage {
+    position: absolute;
+    inset-inline-start: 50%;
+    inset-block-start: calc(var(--pad-top) + var(--arc-y));
+    width: 0; height: 0;
+  }
+  .spoke {
+    /* --rm מאריך זרועות בודדות, כדי שקצות הקשת ייצאו רחוק יותר לצדדים
+       ולא ישבו על הכותרת. הקשת יוצאת אליפטית — רחבה מגובהה. */
+    --rr: calc(var(--r) * var(--rm, 1));
+    position: absolute;
+    inset-block-start: calc(var(--rr) * -1);
+    inset-inline-start: calc(var(--w) / -2);
+    width: var(--w);
+    height: var(--rr);
+    transform-origin: 50% 100%;
+    transform: rotate(var(--a));
+  }
+  /* פתיחת הקשת בטעינה — הרגע המונפש היחיד בעמוד */
+  @keyframes fan {
+    from { transform: rotate(calc(var(--a) * 0.28)) translateY(30px); opacity: 0; }
+    to   { transform: rotate(var(--a)); opacity: 1; }
+  }
+  .spoke { animation: fan 1000ms cubic-bezier(.2,.7,.2,1) backwards; }
+  .spoke:nth-child(1), .spoke:nth-child(6) { animation-delay: 260ms; }
+  .spoke:nth-child(2), .spoke:nth-child(5) { animation-delay: 170ms; }
+  .spoke:nth-child(3), .spoke:nth-child(4) { animation-delay: 80ms; }
+  @media (prefers-reduced-motion: reduce) {
+    .spoke { animation: none; }
+  }
+
+  .spoke img {
+    width: 100%;
+    /* מקזז חלק מסיבוב הזרוע, כדי שהזוגות יישארו קריאים ולא ישכבו על הצד */
+    transform: rotate(calc(var(--a) * -0.5));
+  }
+
+  .sp1 { --a: -84deg; } .sp2 { --a: -50deg; } .sp3 { --a: -17deg; }
+  .sp4 { --a:  17deg; } .sp5 { --a:  50deg; } .sp6 { --a:  84deg; }
 
   .hero-copy {
     position: relative;
     z-index: 2;
-    align-self: center;
-    justify-self: center;
-    max-width: min(470px, 88%);
-    padding-inline: clamp(20px, 3vw, 44px);
-    padding-block-end: clamp(24px, 4vh, 48px);
-  }
-
-  /* התמונה נושקת לקצה המסך ולתחתית הסקשן — בלי מסגרת ובלי רווח.
-     יחס 4:5 קבוע, כי כל הצילומים לאורך ומתיחה לרוחב חותכת את הזוג. */
-  .hero-photo {
-    margin: 0;
-    /* בלי התקרה הצילום מותח את הסקשן מעבר לגובה המסך והטקסט יורד נמוך מדי */
-    max-height: calc(100vh - var(--pad-top));
-    overflow: hidden;
-
-    /* הצילום צולם על שיש בהיר, וכל מפגש שלו עם גוון האבן יוצר תפר חד.
-       שתי מסכות מצטלבות ממיסות את שלושת הקצוות — הפנימי, העליון והתחתון —
-       אל תוך הרקע במקום לחתוך אותם בקו ישר. הדהייה צרה בכוונה: הזוג עצמו
-       תופס 15%-86% לרוחב ו-3%-90% לגובה, והמסכה נעצרת לפניו. */
-    -webkit-mask-image:
-      linear-gradient(to right, #000 0%, #000 88%, rgba(0,0,0,0) 100%),
-      linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000 5%, #000 93%, rgba(0,0,0,0) 100%);
-    mask-image:
-      linear-gradient(to right, #000 0%, #000 88%, rgba(0,0,0,0) 100%),
-      linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000 5%, #000 93%, rgba(0,0,0,0) 100%);
-    -webkit-mask-composite: source-in;
-    mask-composite: intersect;
-  }
-  .hero-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 45%;
-    animation: heroIn 900ms cubic-bezier(.2,.7,.2,1) 100ms backwards;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hero-photo img { animation: none; }
+    /* הקצוות פרושים רחב לצדדים, אז הכותרת יכולה לעלות אל תוך החלל שנפתח */
+    margin-block-start: calc(var(--arc-y) - 84px);
+    display: inline-block;
+    max-width: min(86vw, 540px);
   }
 
   h1 {
     font-family: var(--display);
-    font-size: clamp(40px, 4.8vw, 70px);
+    font-size: clamp(42px, 7vw, 88px);
     font-weight: 300;
     line-height: 1.06;
     letter-spacing: -0.005em;
@@ -201,12 +199,12 @@
 
   .hero p {
     max-width: 38ch;
-    margin: 26px 0 0;
+    margin: 26px auto 0;
     font-size: 18.5px;
     font-weight: 300;
     color: var(--ink-soft);
   }
-  .hero .actions { display: flex; gap: 16px; align-items: center; margin-top: 34px; flex-wrap: wrap; }
+  .hero .actions { display: flex; gap: 16px; align-items: center; justify-content: center; margin-top: 34px; flex-wrap: wrap; }
   .hero h1 { color: var(--ink); }
   .ghost {
     font-size: 14.5px;
@@ -219,35 +217,23 @@
 
   .arch-mobile { display: none; }
 
-  /* מתחת ל-1000 העמודות נחנקות — שם עוברים לכניסה המוערמת של הנייד */
-  @media (max-width: 1000px) {
-    /* במסך צר שתי העמודות נחנקות, אז במקומן צילום אחד לרוחב מלא.
-       רקע הסקשן נצבע בגוון הרקע של התמונה ודוהה אל גוון האבן,
+  @media (max-width: 700px) {
+    /* הקשת הרדיאלית נערמת על עצמה במסך צר. במובייל במקומה צילום אחד
+       לרוחב מלא. רקע הסקשן נצבע בגוון הרקע של התמונה ודוהה אל גוון האבן,
        כדי שלא יהיה תפר בין הצילום לעמוד. */
     .hero {
-      display: block;
-      text-align: center;
-      min-height: 0;
       padding: 78px 0 clamp(48px, 8vh, 76px);
       overflow: hidden;
       background: linear-gradient(to bottom, #E2E2E1 0%, #E2E2E1 62%, var(--ground) 100%);
     }
-    .hero-photo { display: none; }
+    .stage { display: none; }
 
     .arch-mobile {
       display: block;
       width: 100%;
-      /* בטאבלט צילום ריבועי ברוחב מלא מנפח את ההירו ודוחף את הכפתורים
-         הרבה מתחת לקיפול. בטלפון 100% ממילא קטן מהתקרה, אז שם כלום לא זז. */
-      max-width: 470px;
-      margin: 0 auto 6px;
       height: auto;
+      margin: 0 0 6px;
       animation: heroIn 900ms cubic-bezier(.2,.7,.2,1) 100ms backwards;
-
-      /* אותה דהייה כמו בדסקטופ. כאן רק אופקית — הצדדים ממילא יוצאים
-         מהמסך, אז אין שם תפר. נעצרת לפני הזוג ולא אוכלת ממנו. */
-      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000 7%, #000 92%, rgba(0,0,0,0) 100%);
-      mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, #000 7%, #000 92%, rgba(0,0,0,0) 100%);
     }
 
     .hero-copy {
@@ -255,8 +241,8 @@
       max-width: 94vw;
       padding-inline: 16px;
     }
-    .hero p { font-size: 16.5px; margin: 18px auto 0; }
-    .hero .actions { justify-content: center; margin-top: 26px; gap: 12px; }
+    .hero p { font-size: 16.5px; margin-top: 18px; }
+    .hero .actions { margin-top: 26px; gap: 12px; }
   }
 
   @keyframes heroIn {
@@ -371,6 +357,49 @@
     letter-spacing: .015em;
     font-variant-numeric: lining-nums tabular-nums;
   }
+
+  /* ============ מדריך מידות ============ */
+
+  .size-wrap { overflow-x: auto; margin-bottom: clamp(30px, 4vw, 48px); }
+
+  table.sizes {
+    width: 100%;
+    min-width: 420px;
+    border-collapse: collapse;
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    font-variant-numeric: tabular-nums;
+  }
+  table.sizes th, table.sizes td {
+    padding: 15px 18px;
+    text-align: start;
+    border-bottom: 1px solid var(--hair);
+  }
+  table.sizes th {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 400;
+    background: var(--surface-2);
+  }
+  table.sizes td { font-size: 17px; }
+  table.sizes td:nth-child(2) { font-weight: 600; }
+  table.sizes td:last-child { color: var(--ink-soft); font-size: 16px; }
+  table.sizes tbody tr:last-child td { border-bottom: 0; }
+  table.sizes tbody tr:hover { background: var(--surface-2); }
+
+
+  .size-note {
+    margin: clamp(28px, 4vw, 44px) 0 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--hair);
+    font-size: 16.5px;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+  .size-note .ghost { margin-inline-start: 10px; white-space: nowrap; }
 
   /* ============ הסרטון: מהשולחן, לשקית, למסוע ============ */
 
@@ -659,6 +688,7 @@
   <nav aria-label="ניווט ראשי">
     <a href="#collection">הקולקציה</a>
     <a href="#process" class="hide-sm">התהליך</a>
+    <a href="#sizes" class="hide-sm">מידות</a>
     <a href="#about" class="hide-sm">הסיפור</a>
     <a class="cta" href="https://wa.me/972507551771?text=%D7%94%D7%99%D7%99%20%D7%A8%D7%99%D7%A7%D7%99%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%99%D7%A6%D7%95%D7%91%D7%99%D7%9D%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%94%D7%96%D7%9E%D7%99%D7%9F%20%D7%96%D7%95%D7%92" target="_blank" rel="noopener">להזמנת עיצוב<span class="sr-only"> (נפתח בחלון חדש)</span></a>
   </nav>
@@ -667,7 +697,16 @@
 <main>
 
   <div class="hero">
-    <img class="arch-mobile" src="images/hero-mobile.jpg" width="900" height="900" fetchpriority="high" alt="זוג כפכפים ורוד משובץ קריסטלים, מרחף באוויר">
+    <div class="stage" aria-hidden="true">
+      <div class="spoke sp1"><img src="images/real/d21.png" alt=""></div>
+      <div class="spoke sp2"><img src="images/real/d17.png" alt=""></div>
+      <div class="spoke sp3"><img src="images/real/d16.png" alt=""></div>
+      <div class="spoke sp4"><img src="images/real/d24.png" alt=""></div>
+      <div class="spoke sp5"><img src="images/real/d19.png" alt=""></div>
+      <div class="spoke sp6"><img src="images/real/d18.png" alt=""></div>
+    </div>
+
+    <img class="arch-mobile" src="images/hero-mobile.jpg" alt="זוג כפכפים ורוד משובץ קריסטלים, מרחף באוויר">
 
     <div class="hero-copy rise">
       <span class="label">כפכפי הוואיאנס · עבודת יד</span>
@@ -681,11 +720,6 @@
         <a class="ghost" href="#process">איך זה נוצר</a>
       </div>
     </div>
-
-    <figure class="hero-photo">
-      <img src="images/d25.jpg" width="912" height="1216" fetchpriority="high"
-           alt="זוג כפכפי הוואיאנס לבנים משובצים פנינים ושיבוץ זהב בעבודת יד">
-    </figure>
   </div>
 
   <section id="process">
@@ -1020,6 +1054,38 @@
         <h3>ורד שמנת</h3><span class="label">עדין</span>
       </a>
     </div>
+  </section>
+
+  <section id="sizes">
+    <div class="sec-head rise">
+      <span class="label">מידות</span>
+      <h2>המספר על גוף הכפכף קטן משלך בשתיים</h2>
+      <p>
+        כך מסומנות הוואיאנס, גם אלה שנמכרות כאן. מי שמזמינה לפי המספר
+        שהיא רגילה אליו מקבלת זוג גדול מדי.
+      </p>
+    </div>
+
+    <div class="size-wrap rise">
+      <table class="sizes">
+        <thead>
+          <tr><th>המידה שלך</th><th>מסומן על גוף הכפכף</th><th>אורך כף רגל</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>35–36</td><td>33/34</td><td>22–23 ס״מ</td></tr>
+          <tr><td>37–38</td><td>35/36</td><td>23–24 ס״מ</td></tr>
+          <tr><td>39–40</td><td>37/38</td><td>24.5–25.5 ס״מ</td></tr>
+          <tr><td>41–42</td><td>39/40</td><td>26–27 ס״מ</td></tr>
+          <tr><td>43–44</td><td>41/42</td><td>27.5–28.5 ס״מ</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="size-note rise">
+      בין שתי מידות — קחי את הגדולה, גוף הכפכף שטוח ובלי דפנות.
+      לא בטוחה? כתבי לי את אורך כף הרגל בס״מ ואגיד לך בדיוק.
+      <a class="ghost" href="https://wa.me/972507551771?text=%D7%94%D7%99%D7%99%20%D7%A8%D7%99%D7%A7%D7%99%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A2%D7%96%D7%A8%D7%94%20%D7%91%D7%9E%D7%99%D7%93%D7%94.%20%D7%90%D7%95%D7%A8%D7%9A%20%D7%9B%D7%A3%20%D7%94%D7%A8%D7%92%D7%9C%20%D7%A9%D7%9C%D7%99%20____%20%D7%A1%D7%9E" target="_blank" rel="noopener">לשאול בוואטסאפ<span class="sr-only"> (נפתח בחלון חדש)</span></a>
+    </p>
   </section>
 
   <section id="about">
