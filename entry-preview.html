@@ -508,7 +508,7 @@
     document.body.classList.add('intro-active');
     var i = 0;
     slides[0].classList.add('is-active');
-    (function next() {
+    function next() {
       i++;
       if (i < slides.length) {
         slides[i - 1].classList.remove('is-active');
@@ -528,7 +528,7 @@
           startHero();
         }, LOGO_MS + 700);
       }
-    })();
+    }
     setTimeout(next, SLIDE_MS);
   }
 
