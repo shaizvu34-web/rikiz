@@ -651,8 +651,33 @@
     .rise.in { transition: none; }
   }
 </style>
+<style>
+  /* ── פתיחה טיפוגרפית ── */
+  .intro{position:fixed;inset:0;z-index:9999;background:var(--ground);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:0 24px;clip-path:inset(0 0 0 0);}
+  .intro.is-opening{clip-path:inset(0 0 100% 0);transition:clip-path .9s cubic-bezier(.76,0,.24,1);}
+  .intro.is-hidden{display:none;}
+  .intro-word{font-family:var(--serif);direction:ltr;
+    font-size:clamp(52px,15vw,150px);letter-spacing:.18em;padding-inline-start:.18em;
+    line-height:1;color:var(--ink);white-space:nowrap;
+    clip-path:inset(0 100% 0 0);animation:intro-wipe 1.6s cubic-bezier(.23,1,.32,1) .3s forwards;}
+  @keyframes intro-wipe{0%{clip-path:inset(0 100% 0 0)}18%{clip-path:inset(0 74% 0 0)}
+    26%{clip-path:inset(0 74% 0 0)}42%{clip-path:inset(0 52% 0 0)}50%{clip-path:inset(0 52% 0 0)}
+    66%{clip-path:inset(0 30% 0 0)}74%{clip-path:inset(0 30% 0 0)}100%{clip-path:inset(0 0 0 0)}}
+  .intro-rule{width:0;height:1px;background:var(--mark);margin-top:22px;
+    animation:intro-rule .7s cubic-bezier(.23,1,.32,1) 1.7s forwards;}
+  @keyframes intro-rule{to{width:60px}}
+  html.intro-lock,html.intro-lock body{overflow:hidden;}
+  @media (prefers-reduced-motion:reduce){.intro{display:none!important;}}
+</style>
 </head>
 <body>
+
+<div class="intro" id="rikizIntro" aria-hidden="true">
+  <div class="intro-word">RIKIZ</div>
+  <div class="intro-rule"></div>
+</div>
 
 <header id="hdr">
   <a href="#" class="wordmark">RIKIZ</a>
@@ -1503,6 +1528,18 @@
   .wa-fab svg { width: 30px; height: 30px; }
   @media print { .wa-fab { display: none; } }
 </style>
+<script>
+(function () {
+  var intro = document.getElementById('rikizIntro');
+  if (!intro) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { intro.classList.add('is-hidden'); return; }
+  var root = document.documentElement;
+  root.classList.add('intro-lock');
+  setTimeout(function () { intro.classList.add('is-opening'); }, 2600);
+  setTimeout(function () { root.classList.remove('intro-lock'); }, 2900);
+  setTimeout(function () { intro.classList.add('is-hidden'); }, 3600);
+})();
+</script>
 <script src="a11y.js"></script>
 </body>
 </html>
