@@ -435,11 +435,11 @@
     }, 2900);
     setTimeout(function () {
       intro.classList.add('is-hidden');
-      sessionStorage.setItem('rikiz-intro-seen', '1');
     }, 3600);
   }
 
-  if (reduce || sessionStorage.getItem('rikiz-intro-seen')) {
+  // בתצוגה הזו הפתיחה רצה בכל רענון. באתר האמיתי נגדיר "פעם אחת לביקור".
+  if (reduce) {
     intro.classList.add('is-hidden');
     document.body.classList.add('intro-done');
     revealHero();
