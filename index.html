@@ -379,7 +379,7 @@
 
   .about-portrait {
     width: min(340px, 72vw);
-    margin: 0 auto;
+    margin: clamp(30px, 4.5vw, 48px) auto 0;
     aspect-ratio: 4 / 5;
     overflow: hidden;
     background: var(--surface-2);
@@ -1409,11 +1409,6 @@
         <button class="replay" type="button">לראות שוב</button>
       </div>
 
-      <figure class="about-portrait rise">
-        <img src="images/riki.jpg" width="879" height="1100" loading="lazy"
-             alt="ריקי זבולון, המייסדת של RIKIZ, בפורטרט סטודיו">
-      </figure>
-
       <div class="about-copy rise">
         <span class="label">הסיפור</span>
         <h2>הכל התחיל מחתונה אחת, לגמרי במקרה.</h2>
@@ -1435,6 +1430,11 @@
       </div>
 
       <p class="sig rise">נעים מאוד, אני ריקי זבולון.</p>
+
+      <figure class="about-portrait rise">
+        <img src="images/riki.jpg" width="879" height="1100" loading="lazy"
+             alt="ריקי זבולון, המייסדת של RIKIZ, בפורטרט סטודיו">
+      </figure>
     </div>
   </section>
 
