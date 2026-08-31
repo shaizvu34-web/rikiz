@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RIKIZ — ניסוי גופנים</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="fonts/frank-ruhl-libre.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Cormorant:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── שנהב חם + זהב עתיק + גופנים חדשים ── */
+  :root {
+    --ground:#F3EFE8; --surface:#FAF7F1; --surface-2:#EAE3D7;
+    --ink:#16181A; --ink-soft:#736A60; --hair:#D8D0C2; --mark:#9A7B4F;
+    /* גוף: Assistant (עברית+לטינית, עקבי בכל מכשיר). כותרות עברית: Frank Ruhl.
+       לוגו לטיני: Cormorant (סריף עדין ונשי במקום Didot שנופל ל-Georgia). */
+    --body:"Assistant",system-ui,-apple-system,"Arial Hebrew",sans-serif;
+    --display:"Frank Ruhl Libre","New Peninim MT",Georgia,serif;
+    --serif:"Cormorant","Didot",Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --gut:clamp(20px,5vw,64px);
+    --stone:#EDE6DB;
+  }
+  /* ── גופנים נוכחיים (להשוואה) ── */
+  body.oldtype {
+    --body:system-ui,-apple-system,"Arial Hebrew","Segoe UI",sans-serif;
+    --serif:"Didot","Bodoni 72",Georgia,serif;
+  }
+  body.oldtype .label{font-family:var(--mono);font-weight:400;letter-spacing:.16em;}
+  body.terra { --mark:#B5473A; }
+
+  *{box-sizing:border-box;}
+  body{margin:0;overflow-x:hidden;background:var(--ground);color:var(--ink);
+    font-family:var(--body);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;
+    transition:background .3s ease;}
+  /* ── מרקם נייר עדין ── */
+  body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;
+    opacity:.38;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  img{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  .label{font-family:var(--body);font-weight:600;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);}
+
+  header{position:sticky;inset-block-start:0;z-index:50;display:flex;align-items:center;
+    justify-content:space-between;gap:20px;padding:16px var(--gut);
+    background:color-mix(in srgb,var(--ground) 88%,transparent);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--hair);}
+  header .wordmark{font-family:var(--serif);font-weight:500;font-size:29px;letter-spacing:.26em;direction:ltr;line-height:1;padding-inline-end:.26em;}
+  header nav{display:flex;gap:22px;align-items:center;font-size:14px;color:var(--ink-soft);}
+  header nav a.cta{color:var(--ink);border:1px solid var(--mark);padding:9px 16px;white-space:nowrap;}
+  @media (max-width:780px){header nav a.plain{display:none;}}
+
+  .hero{--pad-top:clamp(36px,6vh,72px);position:relative;display:grid;grid-template-columns:1fr 1fr;
+    align-items:stretch;gap:0;max-width:1680px;margin-inline:auto;min-height:min(88vh,780px);
+    padding-block:var(--pad-top) 0;overflow:hidden;}
+  .hero-copy{position:relative;z-index:2;align-self:center;justify-self:center;
+    max-width:min(470px,88%);padding-inline:clamp(20px,3vw,44px);padding-block-end:clamp(24px,4vh,48px);}
+  .hero-photo{margin:0;max-height:calc(100vh - var(--pad-top));overflow:hidden;
+    -webkit-mask-image:linear-gradient(to right,#000 0%,#000 88%,rgba(0,0,0,0) 100%),linear-gradient(to bottom,rgba(0,0,0,0) 0%,#000 5%,#000 93%,rgba(0,0,0,0) 100%);
+    mask-image:linear-gradient(to right,#000 0%,#000 88%,rgba(0,0,0,0) 100%),linear-gradient(to bottom,rgba(0,0,0,0) 0%,#000 5%,#000 93%,rgba(0,0,0,0) 100%);
+    -webkit-mask-composite:source-in;mask-composite:intersect;}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;}
+  h1{font-family:var(--display);font-size:clamp(42px,5.2vw,76px);font-weight:300;line-height:1.02;letter-spacing:-.012em;margin:18px 0 0;text-wrap:balance;}
+  h1 i{font-style:normal;font-weight:500;}
+  .hero p{max-width:38ch;margin:24px 0 0;font-size:18px;font-weight:300;color:var(--ink-soft);}
+  .hero .actions{display:flex;gap:16px;align-items:center;margin-top:32px;flex-wrap:wrap;}
+  .cta{display:inline-block;font-size:14px;letter-spacing:.03em;color:var(--ink);border:1px solid var(--mark);padding:11px 22px;transition:background .18s,color .18s;}
+  .cta:hover{background:var(--mark);color:var(--surface);}
+  .ghost{font-size:14.5px;color:var(--ink-soft);border-bottom:1px solid var(--hair);padding-bottom:3px;}
+
+  @media (max-width:1000px){
+    .hero{display:flex;flex-direction:column;align-items:center;text-align:center;min-height:0;
+      padding:20px 0 clamp(40px,7vh,64px);background:linear-gradient(to bottom,var(--stone) 0%,var(--stone) 44%,var(--ground) 100%);}
+    .hero-photo{order:-1;width:100%;max-height:clamp(260px,44vh,420px);margin:0 auto clamp(12px,3vh,24px);
+      -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 88%,rgba(0,0,0,0) 100%),linear-gradient(to right,rgba(0,0,0,0) 0%,#000 6%,#000 94%,rgba(0,0,0,0) 100%);
+      mask-image:linear-gradient(to bottom,#000 0%,#000 88%,rgba(0,0,0,0) 100%),linear-gradient(to right,rgba(0,0,0,0) 0%,#000 6%,#000 94%,rgba(0,0,0,0) 100%);
+      -webkit-mask-composite:source-in;mask-composite:intersect;}
+    .hero-photo img{object-position:50% 22%;}
+    .hero-copy{max-width:94vw;padding-inline:16px;}
+    h1{font-size:clamp(34px,8.5vw,48px);}
+    .hero p{font-size:16px;margin:16px auto 0;max-width:34ch;}
+    .hero .actions{justify-content:center;margin-top:22px;gap:12px;}
+  }
+
+  section{padding:clamp(56px,9vw,110px) var(--gut);}
+  .sec-head{border-top:1px solid var(--ink);padding-top:18px;max-width:1120px;margin:0 auto clamp(30px,5vw,50px);}
+  .sec-head .label{display:block;}
+  .sec-head h2{font-family:var(--display);font-size:clamp(28px,4.2vw,46px);font-weight:300;line-height:1.12;letter-spacing:-.01em;margin:12px 0 0;}
+  .sec-head p{margin:14px 0 0;color:var(--ink-soft);font-weight:300;}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,26px);max-width:1120px;margin-inline:auto;}
+  @media (max-width:700px){.grid{grid-template-columns:repeat(2,1fr);}}
+  .item figure{margin:0 0 12px;overflow:hidden;background:var(--surface-2);}
+  .item img{width:100%;aspect-ratio:3/4;object-fit:cover;}
+  .item h3{margin:0;font-family:var(--display);font-size:17.5px;font-weight:400;}
+  .item .label{display:block;margin-top:2px;}
+
+  .quote{background:var(--surface);text-align:center;}
+  .quote blockquote{font-family:var(--display);font-weight:300;font-size:clamp(23px,3.6vw,36px);line-height:1.5;max-width:24ch;margin:0 auto;}
+  .quote cite{display:block;margin-top:22px;font-style:normal;}
+
+  .story{background:var(--surface-2);}
+  .story p{max-width:56ch;margin:0 auto;text-align:center;color:var(--ink-soft);font-weight:300;}
+
+  .toggle{position:fixed;bottom:16px;inset-inline-end:16px;z-index:99;background:var(--ink);color:var(--ground);
+    border:0;padding:11px 18px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="wordmark">RIKIZ</a>
+  <nav>
+    <a href="#" class="plain">הקולקציה</a>
+    <a href="#" class="plain">התהליך</a>
+    <a class="cta" href="#">להזמנת עיצוב</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="label">כפכפי הוואיאנס · עבודת יד</span>
+      <h1>התכשיט הבא<br><i>לרגל</i> שלך.</h1>
+      <p>כל זוג משובץ ביד, אבן אחר אבן — קריסטלים, פנינים ותליוני ים, על גוף הכפכף שאת בוחרת.</p>
+      <div class="actions">
+        <a class="cta" href="#">לראות את הקולקציה</a>
+        <a class="ghost" href="#">איך זה נוצר</a>
+      </div>
+    </div>
+    <figure class="hero-photo">
+      <img src="images/d25.jpg" width="912" height="1216" alt="זוג כפכפי הוואיאנס לבנים משובצים פנינים">
+    </figure>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <span class="label">הקולקציה</span>
+      <h2>כל דגם, סיפור קטן</h2>
+      <p>האוסף המלא — כל זוג נתפר ביד, לפי הזמנה.</p>
+    </div>
+    <div class="grid">
+      <div class="item"><figure><img src="images/d25.jpg" alt=""></figure><h3>פנינים</h3><span class="label">לבן · פנינים לכלה</span></div>
+      <div class="item"><figure><img src="images/d24.jpg" alt=""></figure><h3>ורד פודרה</h3><span class="label">ורוד · קריסטלים</span></div>
+      <div class="item"><figure><img src="images/d26.jpg" alt=""></figure><h3>צדפה שחורה</h3><span class="label">שחור · תליוני זהב</span></div>
+    </div>
+  </section>
+
+  <section class="quote">
+    <blockquote>&#8220;כל זוג נתפר ביד, זוג-זוג — בלי שני זוגות זהים.&#8221;<cite class="label">ריקי זבולון</cite></blockquote>
+  </section>
+
+  <section class="story">
+    <div class="sec-head"><span class="label">הסיפור</span><h2>הכל התחיל מחתונה אחת</h2></div>
+    <p>ככה נראה סקשן על רקע מעט כהה יותר (var(--surface-2)) — כדי שתראה איך הקצב הדו-גוני יושב עם השנהב החם.</p>
+  </section>
+</main>
+
+<button class="toggle" id="t">גופנים: חדשים · לחץ להשוואה לנוכחיים</button>
+
+<script>
+  var b=document.body, t=document.getElementById('t');
+  t.addEventListener('click',function(){
+    b.classList.toggle('oldtype');
+    t.textContent = b.classList.contains('oldtype')
+      ? 'גופנים: נוכחיים · לחץ לחדשים'
+      : 'גופנים: חדשים · לחץ להשוואה לנוכחיים';
+  });
+</script>
+</body>
+</html>
