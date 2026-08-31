@@ -7,10 +7,10 @@
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="fonts/frank-ruhl-libre.css">
 <style>
-  /* ── שנהב חם (המוצע) ── */
+  /* ── שנהב חם + זהב עתיק (המוצע) ── */
   :root {
     --ground:#F3EFE8; --surface:#FAF7F1; --surface-2:#EAE3D7;
-    --ink:#16181A; --ink-soft:#736A60; --hair:#D8D0C2; --mark:#B5473A;
+    --ink:#16181A; --ink-soft:#736A60; --hair:#D8D0C2; --mark:#9A7B4F;
     --body:system-ui,-apple-system,"Arial Hebrew","Segoe UI",sans-serif;
     --display:"Frank Ruhl Libre","New Peninim MT","Didot",Georgia,serif;
     --serif:"Didot","Bodoni 72",Georgia,"Times New Roman",serif;
@@ -18,16 +18,17 @@
     --gut:clamp(20px,5vw,64px);
     --stone:#EDE6DB;
   }
-  /* ── אפור נוכחי (להשוואה) ── */
-  body.grey {
-    --ground:#E9EAE5; --surface:#F7F7F4; --surface-2:#DFE1DA;
-    --ink-soft:#6C716D; --hair:#C6C9C1; --stone:#E2E2E1;
-  }
+  /* ── טרהקוטה נוכחי (להשוואה) ── */
+  body.terra { --mark:#B5473A; }
 
   *{box-sizing:border-box;}
   body{margin:0;overflow-x:hidden;background:var(--ground);color:var(--ink);
     font-family:var(--body);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;
     transition:background .3s ease;}
+  /* ── מרקם נייר עדין ── */
+  body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;
+    opacity:.38;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
   img{display:block;max-width:100%;}
   a{color:inherit;text-decoration:none;}
   .label{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);}
@@ -38,7 +39,7 @@
     border-bottom:1px solid var(--hair);}
   header .wordmark{font-family:var(--serif);font-size:27px;letter-spacing:.22em;direction:ltr;line-height:1;padding-inline-end:.22em;}
   header nav{display:flex;gap:22px;align-items:center;font-size:14px;color:var(--ink-soft);}
-  header nav a.cta{color:var(--mark);border:1px solid var(--mark);padding:9px 16px;white-space:nowrap;}
+  header nav a.cta{color:var(--ink);border:1px solid var(--mark);padding:9px 16px;white-space:nowrap;}
   @media (max-width:780px){header nav a.plain{display:none;}}
 
   .hero{--pad-top:clamp(36px,6vh,72px);position:relative;display:grid;grid-template-columns:1fr 1fr;
@@ -55,7 +56,8 @@
   h1 i{font-style:normal;font-weight:500;}
   .hero p{max-width:38ch;margin:24px 0 0;font-size:18px;font-weight:300;color:var(--ink-soft);}
   .hero .actions{display:flex;gap:16px;align-items:center;margin-top:32px;flex-wrap:wrap;}
-  .cta{display:inline-block;font-size:14px;letter-spacing:.02em;color:var(--mark);border:1px solid var(--mark);padding:11px 22px;}
+  .cta{display:inline-block;font-size:14px;letter-spacing:.03em;color:var(--ink);border:1px solid var(--mark);padding:11px 22px;transition:background .18s,color .18s;}
+  .cta:hover{background:var(--mark);color:var(--surface);}
   .ghost{font-size:14.5px;color:var(--ink-soft);border-bottom:1px solid var(--hair);padding-bottom:3px;}
 
   @media (max-width:1000px){
@@ -146,15 +148,15 @@
   </section>
 </main>
 
-<button class="toggle" id="t">רקע: שנהב חם · לחץ להשוואה לאפור</button>
+<button class="toggle" id="t">מבטא: זהב עתיק · לחץ להשוואה לטרהקוטה</button>
 
 <script>
   var b=document.body, t=document.getElementById('t');
   t.addEventListener('click',function(){
-    b.classList.toggle('grey');
-    t.textContent = b.classList.contains('grey')
-      ? 'רקע: אפור נוכחי · לחץ לשנהב חם'
-      : 'רקע: שנהב חם · לחץ להשוואה לאפור';
+    b.classList.toggle('terra');
+    t.textContent = b.classList.contains('terra')
+      ? 'מבטא: טרהקוטה נוכחי · לחץ לזהב עתיק'
+      : 'מבטא: זהב עתיק · לחץ להשוואה לטרהקוטה';
   });
 </script>
 </body>
