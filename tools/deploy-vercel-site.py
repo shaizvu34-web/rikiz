@@ -8,6 +8,20 @@ import base64, hashlib, json, os, sys, urllib.error, urllib.request
 ROOT = os.path.expanduser("~/rikiz-site")
 TOKEN = open(os.path.expanduser("~/.vercel-token")).read().strip()
 
+
+def _team_id():
+    try:
+        req = urllib.request.Request("https://api.vercel.com/v2/user",
+                                     headers={"Authorization": "Bearer " + TOKEN})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.loads(r.read())["user"].get("defaultTeamId")
+    except Exception:
+        return None
+
+
+TEAM = os.environ.get("VERCEL_TEAM_ID") or _team_id()
+Q = ("?teamId=" + TEAM) if TEAM else ""
+
 # אותה רשימה כמו הפריסה ל-Netlify — רק מה שצריך לאוויר
 INCLUDE_FILES = ["index.html", "accessibility.html", "privacy.html",
                  "a11y.css", "a11y.js", "legal.css"]
@@ -33,7 +47,7 @@ def gather():
 
 
 def api(path, payload=None, method="POST"):
-    url = "https://api.vercel.com" + path
+    url = "https://api.vercel.com" + path + Q
     data = json.dumps(payload).encode() if payload is not None else None
     req = urllib.request.Request(url, data=data, method=method, headers={
         "Authorization": "Bearer " + TOKEN,
@@ -49,7 +63,7 @@ def api(path, payload=None, method="POST"):
 def upload(full):
     body = open(full, "rb").read()
     sha = hashlib.sha1(body).hexdigest()
-    req = urllib.request.Request("https://api.vercel.com/v2/files", data=body,
+    req = urllib.request.Request("https://api.vercel.com/v2/files" + Q, data=body,
                                  method="POST", headers={
         "Authorization": "Bearer " + TOKEN,
         "Content-Type": "application/octet-stream",
