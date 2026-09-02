@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>אופציות פונט למחיר</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Cormorant:wght@400;500;600&family=Frank+Ruhl+Libre:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ground:#F3EFE8; --surface:#FAF7F1; --ink:#16181A; --ink-soft:#736A60; --hair:#D8D0C2; --mark:#9A7B4F;
+    --body:"Assistant",system-ui,sans-serif;
+    --display:"Frank Ruhl Libre","New Peninim MT",Georgia,serif;
+    --serif:"Cormorant","Didot",Georgia,serif;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);
+    font-size:17px;line-height:1.7;padding:40px clamp(20px,5vw,64px);-webkit-font-smoothing:antialiased;}
+  h1{font-family:var(--display);font-weight:300;font-size:26px;margin:0 0 6px;}
+  .sub{color:var(--ink-soft);font-weight:300;margin:0 0 36px;font-size:15px;}
+  .row{border-top:1px solid var(--hair);padding:22px 0;display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:baseline;}
+  .tag{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  .note{font-size:13px;color:var(--ink-soft);font-weight:300;margin-top:6px;}
+  .price-line{font-size:17px;color:var(--ink-soft);font-weight:300;}
+
+  /* A — נוכחי: Cormorant */
+  .A b{font-family:var(--serif);font-size:25px;font-weight:400;color:var(--ink);letter-spacing:.015em;font-variant-numeric:lining-nums tabular-nums;}
+
+  /* B — Assistant medium, מעט גדול */
+  .B b{font-family:var(--body);font-size:20px;font-weight:500;color:var(--ink);}
+
+  /* C — Frank Ruhl Libre (הסריף של הכותרות) */
+  .C b{font-family:var(--display);font-size:22px;font-weight:400;color:var(--ink);font-variant-numeric:lining-nums;}
+
+  /* D — הכול Assistant, משקל אחיד, בלי בולד */
+  .D{font-size:17px;color:var(--ink-soft);font-weight:400;}
+  .D b{font-weight:400;color:var(--ink-soft);}
+
+  /* E — Assistant, ₪ אחרי המספר */
+  .E b{font-family:var(--body);font-size:20px;font-weight:500;color:var(--ink);}
+
+  /* F — Frank Ruhl, השקל צמוד וקטן */
+  .F b{font-family:var(--display);font-size:23px;font-weight:400;color:var(--ink);}
+  .F b .cur{font-size:.62em;font-weight:400;margin-inline-start:.12em;color:var(--ink-soft);vertical-align:.05em;}
+
+  .ctx{margin-top:52px;padding:30px clamp(16px,4vw,40px);background:var(--surface);border:1px solid var(--hair);}
+  .ctx .lbl{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  .ctx h2{font-family:var(--display);font-weight:300;font-size:clamp(24px,4vw,36px);margin:10px 0 0;}
+  .ctx p{margin:14px 0 0;color:var(--ink-soft);font-weight:300;max-width:48ch;}
+</style>
+</head>
+<body>
+  <h1>אופציות לפונט של המחיר</h1>
+  <p class="sub">אותה שורה — "החל מ־₪180" — בכל אופציה. הפלטה והרקע זהים לאתר.</p>
+
+  <div class="row A"><span class="tag">A · נוכחי</span>
+    <div><p class="price-line">החל מ־<b>₪180</b></p>
+    <p class="note">Cormorant 25px. הספרות דקות, וה־₪ נופל לפונט אחר (Cormorant בלי גליף שקל) — משם חוסר האחידות.</p></div>
+  </div>
+
+  <div class="row B"><span class="tag">B · Assistant</span>
+    <div><p class="price-line">החל מ־<b>₪180</b></p>
+    <p class="note">אותו פונט כמו שאר הטקסט, משקל 500, 20px. נקי, עכשווי, מתמזג עם המשפט.</p></div>
+  </div>
+
+  <div class="row C"><span class="tag">C · Frank Ruhl</span>
+    <div><p class="price-line">החל מ־<b>₪180</b></p>
+    <p class="note">הסריף העברי של הכותרות. ספרות ליניאריות מלאות, ₪ תואם. מראה מגזין/בוטיק.</p></div>
+  </div>
+
+  <div class="row D"><span class="tag">D · מינימלי</span>
+    <div><p class="price-line">החל מ־<b>₪180</b></p>
+    <p class="note">הכול Assistant 17px, בלי בולד ובלי הגדלה. שקט מאוד — המחיר לא "צועק".</p></div>
+  </div>
+
+  <div class="row E"><span class="tag">E · ₪ אחרי</span>
+    <div><p class="price-line">החל מ־<b>180&#8202;₪</b></p>
+    <p class="note">Assistant 500, סימן השקל אחרי המספר — סדר קריאה טבעי יותר בעברית.</p></div>
+  </div>
+
+  <div class="row F"><span class="tag">F · Frank Ruhl + ₪ קטן</span>
+    <div><p class="price-line">החל מ־<b>180<span class="cur">₪</span></b></p>
+    <p class="note">כמו C, אבל סימן השקל קטן ועדין אחרי המספר. הכי "תכשיט".</p></div>
+  </div>
+
+  <div class="ctx">
+    <span class="lbl">הקשר — איך זה יושב בסקשן</span>
+    <h2>הקולקציה</h2>
+    <p>כל אחד מהם ניתן להזמנה מחדש בגוף הכפכף ובמידה שלך, או לשמש נקודת פתיחה למשהו אחר לגמרי.</p>
+    <p class="price-line C" style="margin-top:14px;">החל מ־<b>₪180</b> <span style="font-size:12px;opacity:.6;">← לדוגמה עם אופציה C</span></p>
+  </div>
+</body>
+</html>

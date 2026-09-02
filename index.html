@@ -8,6 +8,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23E9EAE5'/%3E%3Ctext x='32' y='46' font-family='Didot,Georgia,serif' font-size='42' text-anchor='middle' fill='%2316181A'%3ER%3C/text%3E%3C/svg%3E">
 <meta name="theme-color" content="#E9EAE5">
 
+<!-- מדידת תנועה: Umami cloud — ללא עוגיות, ללא מידע אישי -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="941829c3-8b6f-484c-a438-ab594907ccdd"></script>
+
 <!-- תצוגה מקדימה בוואטסאפ וברשתות -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="RIKIZ">
@@ -1565,6 +1568,24 @@
   .wa-fab svg { width: 30px; height: 30px; }
   @media print { .wa-fab { display: none; } }
 </style>
+<script>
+/* מדידת המרות: כל לחיצה על קישור וואטסאפ נרשמת כאירוע "whatsapp" עם המיקום שממנו נלחצה */
+(function () {
+  function spot(a) {
+    if (a.classList.contains('wa-fab')) return 'fab';
+    if (a.classList.contains('cta-lg')) return 'cta-bottom';
+    var item = a.closest('.item');
+    if (item) { var h = item.querySelector('h3'); return 'collection:' + (h ? h.textContent.trim() : '?'); }
+    if (a.closest('#hdr')) return 'header';
+    return 'other';
+  }
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (window.umami) window.umami.track('whatsapp', { spot: spot(a) });
+    });
+  });
+})();
+</script>
 <script>
 (function () {
   var intro = document.getElementById('rikizIntro');
